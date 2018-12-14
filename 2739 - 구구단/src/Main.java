@@ -14,7 +14,12 @@ public class Main {
 		int num = Integer.parseInt(br.readLine());
 		
 		for(int i=1; i<10; i++) {
-			bw.write(String.valueOf(num) + " * " + String.valueOf(i) + " = " + String.valueOf(num * i) + "\n");
+			bw.write(String.valueOf(num));
+			bw.write(" * ");
+			bw.write(String.valueOf(i));
+			bw.write(" = ");
+			bw.write(String.valueOf(num * i));
+			bw.newLine();
 		}
 		
 		bw.flush();
