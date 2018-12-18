@@ -15,66 +15,93 @@ public class Main {
 		int num = Integer.parseInt(br.readLine());
 
 		int floor = 0;
-		int tri = 1;
+		int triangle = 0;
 
-		ArrayList<Integer> arr = new ArrayList<Integer>();
+		ArrayList<Integer> blank_size = new ArrayList<Integer>();
 
 		for (int i = num - 1; i >= 0; i--) {
-
+			
 			floor++;
-			arr = arraySetting(arr, floor, tri - 1);
+			
+			blank_size = blankSizeSetting(blank_size, floor, triangle);
+			
 			for (int j = 0; j < i; j++)
 				bw.write(" ");
 
-			printStar(i % 3);
-			for (int j = 0; j < arr.size(); j++) {
+			printStarByFloor(i % 3);
+			for (int j = 0; j < blank_size.size(); j++) {
 				if (floor % 3 == 1)
-					printBlank((arr.get(j) * 6) - 1);
+					printBlankByNumber((blank_size.get(j) * 6) - 1);
 				if (floor % 3 == 2)
-					printBlank((arr.get(j) * 6) - 3);
+					printBlankByNumber((blank_size.get(j) * 6) - 3);
 				if (floor % 3 == 0)
-					printBlank((arr.get(j) * 6) - 5);
-				printStar(i % 3);
+					printBlankByNumber((blank_size.get(j) * 6) - 5);
+				printStarByFloor(i % 3);
 			}
+			
+			if (floor % 3 == 1)
+				triangle++;
+			
+			for (int j = 0; j < i; j++)
+				bw.write(" ");
 
-			if (floor % 3 == 0)
-				tri++;
-
-			bw.newLine();
+			bw.write("\n");
+			bw.flush();
+			
 		}
-
-		bw.flush();
-		bw.close();
-
+            bw.close();
 	}
 
-	private static ArrayList<Integer> arraySetting(ArrayList<Integer> arr, int floor, int tri) {
-		ArrayList<Integer> new_arr = new ArrayList<Integer>();
-		if (floor % 3 == 1 && ((tri & (tri - 1)) == 0) && tri != 0) {
-			new_arr.add(tri);
-			return new_arr;
+	private static ArrayList<Integer> blankSizeSetting(ArrayList<Integer> old_blank_size, int floor, int triangle) {
+		ArrayList<Integer> new_blank_size = new ArrayList<Integer>();
+		
+		if (floor % 3 == 1 && ((triangle & (triangle - 1)) == 0) && triangle != 0) {
+			new_blank_size.add(triangle);
+			return new_blank_size;
 		}
+		
+		if(triangle != 0 && ((triangle / 3) & (triangle / 3) - 1) == 0 && floor % 3 == 1 && triangle % 6 == 0) {
+			for(int i=0; i<3; i++) {
+				new_blank_size.add(triangle/3);
+			}
+			return new_blank_size;
+		}
+		
+		
 		if (floor % 3 == 1) {
-			for (int i = 0; i < arr.size(); i++) {
-				if (arr.get(i) == 1)
-					new_arr.add(2);
-				else if (arr.get(i) % 2 == 1)
-					new_arr.add(arr.get(i) - 1);
+			for (int i = 0; i < old_blank_size.size(); i++) {
+				if(old_blank_size.get(i) == 1) {
+					int one = 0;
+					for(int j=i+1; j<old_blank_size.size(); j++) {
+						if(old_blank_size.get(j) == 1)
+							one++;
+						else
+							break;
+					}
+					if(one != 0) {
+						new_blank_size.add((int) (old_blank_size.get(i) * (one+2)));
+						i += one;
+					} else
+						new_blank_size.add(2);
+				}
+				else if (old_blank_size.get(i) % 2 == 1)
+					new_blank_size.add(old_blank_size.get(i) - 1);
 				else {
-					new_arr.add(1);
-					new_arr.add(arr.get(i) - 1);
-					if(i == arr.size() - 1)
-						new_arr.add(1);
+					new_blank_size.add(1);
+					new_blank_size.add(old_blank_size.get(i) - 1);
+					if(i == old_blank_size.size() - 1)
+						new_blank_size.add(1);
 				}
 				
 			}
-			return new_arr;
+			return new_blank_size;
 		}
-		return arr;
+		return old_blank_size;
 
 	}
 
-	public static void printStar(int floor) throws IOException {
+
+	public static void printStarByFloor(int floor) throws IOException {
 		switch (floor) {
 		case 2:
 			bw.write("*");
@@ -88,9 +115,9 @@ public class Main {
 		}
 	}
 
-	public static void printBlank(int count) throws IOException {
+	public static void printBlankByNumber(int count) throws IOException {
 		for (int i = 0; i < count; i++)
 			bw.write(" ");
 	}
-
+	
 }
