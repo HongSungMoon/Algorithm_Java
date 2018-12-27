@@ -11,9 +11,11 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-		String[] inputs = br.readLine().split(" ");
-		int min = Integer.parseInt(inputs[0]);
-		int max = Integer.parseInt(inputs[1]);
+		int min = Integer.parseInt(br.readLine());
+		int max = Integer.parseInt(br.readLine());
+		int count = 0;
+		int sum = 0;
+		int min_sosu = 0;
 
 		for (int i = min; i <= max; i++) {
 			if (i == 1)
@@ -26,9 +28,19 @@ public class Main {
 				}
 			}
 			if (!check) {
-				bw.write(String.valueOf(i));
-				bw.newLine();
+				if (min_sosu == 0)
+					min_sosu = i;
+				count++;
+				sum += i;
 			}
+		}
+
+		if (count < 1)
+			bw.write(String.valueOf(-1));
+		else {
+			bw.write(String.valueOf(sum));
+			bw.newLine();
+			bw.write(String.valueOf(min_sosu));
 		}
 			bw.flush();
 			bw.close();
