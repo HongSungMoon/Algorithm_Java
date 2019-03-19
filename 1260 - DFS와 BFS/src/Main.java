@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -34,7 +33,7 @@ public class Main {
 		// DFS
 		String dfs = dfs(dfsGraph, startVertex, vertexCount);
 
-		// DFS
+		// BFS
 		String bfs = bfs(bfsGraph, startVertex, vertexCount);
 
 		bw.write(dfs);
@@ -54,26 +53,37 @@ public class Main {
 		for (int i = 0; i < vertexCount; i++) {
 			graph[i][startVertex - 1] = false;
 		}
+		
 
 		StringBuilder sb = new StringBuilder();
-
+		
+		int peek = stack.top();
+		sb.append(String.valueOf(peek) + " ");
+		
 		while (true) {
-
+			
 			if (stack.isEmpty())
 				break;
-
-			int vertex = stack.pop();
-			sb.append(String.valueOf(vertex) + " ");
+			
+			peek = stack.top();
+			
+			boolean flag = false;
+			
 			for (int i = 0; i < vertexCount; i++) {
-				if (graph[vertex - 1][i]) {
+				if (graph[peek - 1][i]) {
+					sb.append(String.valueOf(i + 1) + " ");
 					stack.push(i + 1);
 					for(int j=0; j<vertexCount; j++) {
 						graph[j][i] = false;
 					}
+					flag = true;
 					break;
 				}
 			}
-
+			
+			if(!flag) {
+				int vertex = stack.pop();
+			}
 		}
 
 		return sb.toString();
@@ -137,6 +147,10 @@ class Stack {
 		if (idx == -1)
 			return true;
 		return false;
+	}
+	
+	public int top() {
+		return arr[idx];
 	}
 
 }
