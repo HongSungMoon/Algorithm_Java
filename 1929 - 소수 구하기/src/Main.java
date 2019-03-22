@@ -33,10 +33,10 @@ public class Main {
 			}
 		}
 
-		boolean results[] = new boolean [max - min + 1];
+        boolean[] results = new boolean[max - min + 1];
 		Arrays.fill(results, true);
 		for(int i=1; i<sosu.length; i++) {
-			if(sosu[i] == false)
+			if(!sosu[i])
 				for(int j=min; j<=max; j++)
 					if(j % i == 0 && i != j)
 						results[j-min] = false;
