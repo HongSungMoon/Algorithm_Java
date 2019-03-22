@@ -32,7 +32,7 @@ public class Main {
 				sosu[i] = false;
 			}
 		}
-		
+
 		boolean results[] = new boolean [max - min + 1];
 		Arrays.fill(results, true);
 		for(int i=1; i<sosu.length; i++) {
@@ -41,10 +41,10 @@ public class Main {
 					if(j % i == 0 && i != j)
 						results[j-min] = false;
 		}
-		
+
 		if(min == 1)
 			results[0] = false;
-		
+
 		for (int i = 0; i < results.length; i++) {
 			if (results[i]) {
 				bw.write(String.valueOf(min + i));
