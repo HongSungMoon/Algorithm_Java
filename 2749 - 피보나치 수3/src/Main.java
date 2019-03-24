@@ -28,8 +28,6 @@ public class Main {
             a = b;
             b = c;
         }
-        bw.write(String.valueOf(c));
-        bw.newLine();
         bw.write(String.valueOf(c % 1000000));
         bw.flush();
         bw.close();
